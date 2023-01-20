@@ -4,6 +4,9 @@ import AboutPage from './pages/AboutPage';
 import ArticlePageList from './pages/ArticleListPage';
 import NotFoundPage from './pages/NotfoundPage';
 import ArticlePage from './pages/ArticlePage';
+import CreateAccountPage from './pages/Createaccountpage';
+import LoginPage from './pages/LoginPage';
+
 import {
   BrowserRouter ,
   Routes,
@@ -23,6 +26,8 @@ function App() {
         <Route path='/articles'element={<ArticlePageList/>}/>
            <Route path='/articles/:articleId'element={<ArticlePage/>}/>
            <Route path='*' element={<NotFoundPage/>}/>
+           <Route path='/createaccount' element={<CreateAccountPage/>}/>
+           <Route path='/login' element={<LoginPage/>}/>
 </Routes>
 
       </div>
