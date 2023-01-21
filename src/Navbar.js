@@ -4,7 +4,7 @@ import { getAuth,signOut } from 'firebase/auth';
 
 function Navbar() {
     const {user}=useUser();
-    const navigate=useNavigate();¸
+    const navigate=useNavigate();
     return (
 
         <nav>
