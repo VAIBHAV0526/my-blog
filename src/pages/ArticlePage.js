@@ -9,21 +9,33 @@ import NotFoundPage from './NotfoundPage';
 const ArticlePage = () => {
   const params = useParams();
   const articleId= params.articleId;
-  const {user,loading}=useUser();
-const [articleinfo, setarticleinfo] = useState({ upvotes:0, Comments: [] });  // load data
+  const {user,isLoading}=useUser();
+const [articleinfo, setarticleinfo] = useState({ upvotes:0, Comments: [] ,canupvote:false});  // load data
+const {canupvote}= articleinfo;
 useEffect(
   ()=>{
+
 const loadarticleinfo = async() =>{
+  const token= user && await user.getIdToken();
+  const headers =token ? {authtoken:token} : {};
   console.log(articleId);
-  const response = await axios.get(`/api/articles/${articleId}`);
+  const response = await axios.get(`/api/articles/${articleId}`,
+  {
+    headers,
+  });
   const newarticleinfo=response.data;
   console.log(newarticleinfo);
   setarticleinfo(newarticleinfo);}
+if(isLoading){
+loadarticleinfo();
+}
 
-loadarticleinfo();}, []);
+}, [isLoading,user]);
 
 const upvote= async()=>{
-  const response= await axios.put(`/api/articles/${articleId}/upvote`);
+  const token= user && await user.getIdToken();
+  const headers =token ? {authtoken:token} : {};
+  const response= await axios.put(`/api/articles/${articleId}/upvote`,null,{headers});
   setarticleinfo(response.data);
 }
     const article  = articles.find(article =>article.name===articleId);
@@ -35,7 +47,7 @@ const upvote= async()=>{
      
        <div className='upvotes-section'>
      {user ?
-        <button onClick={upvote}>upvote    </button>
+        <button onClick={upvote}>{canupvote  ? 'upvote':'all ready upvoted'}  </button>
         
      :
         <button>login to upvote      </button>
